@@ -1,0 +1,8 @@
+C:\AspNetCore\Sistema\Sistema.Entidades\bin\Debug\netcoreapp3.1\Sistema.Entidades.deps.json
+C:\AspNetCore\Sistema\Sistema.Entidades\bin\Debug\netcoreapp3.1\Sistema.Entidades.dll
+C:\AspNetCore\Sistema\Sistema.Entidades\bin\Debug\netcoreapp3.1\Sistema.Entidades.pdb
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\netcoreapp3.1\Sistema.Entidades.AssemblyInfoInputs.cache
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\netcoreapp3.1\Sistema.Entidades.AssemblyInfo.cs
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\netcoreapp3.1\Sistema.Entidades.csproj.CoreCompileInputs.cache
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\netcoreapp3.1\Sistema.Entidades.dll
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\netcoreapp3.1\Sistema.Entidades.pdb

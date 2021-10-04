@@ -1,0 +1,12 @@
+C:\AspNetCore\Sistema\Sistema.Entidades\bin\Debug\net5.0\Sistema.Entidades.deps.json
+C:\AspNetCore\Sistema\Sistema.Entidades\bin\Debug\net5.0\Sistema.Entidades.dll
+C:\AspNetCore\Sistema\Sistema.Entidades\bin\Debug\net5.0\ref\Sistema.Entidades.dll
+C:\AspNetCore\Sistema\Sistema.Entidades\bin\Debug\net5.0\Sistema.Entidades.pdb
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\net5.0\Sistema.Entidades.GeneratedMSBuildEditorConfig.editorconfig
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\net5.0\Sistema.Entidades.AssemblyInfoInputs.cache
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\net5.0\Sistema.Entidades.AssemblyInfo.cs
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\net5.0\Sistema.Entidades.csproj.CoreCompileInputs.cache
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\net5.0\Sistema.Entidades.dll
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\net5.0\ref\Sistema.Entidades.dll
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\net5.0\Sistema.Entidades.pdb
+C:\AspNetCore\Sistema\Sistema.Entidades\obj\Debug\net5.0\Sistema.Entidades.csprojAssemblyReference.cache
