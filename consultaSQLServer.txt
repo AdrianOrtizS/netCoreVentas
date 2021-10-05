@@ -1,0 +1,143 @@
+
+/*ActualizarStockAnularIngreso */
+drop TRIGGER ActualizarStockAnularIngreso
+
+CREATE TRIGGER ActualizarStockAnularIngreso
+on ingreso
+for UPDATE
+AS
+
+declare @iding2 int = (select top(1) idingreso from inserted )
+
+declare @tabla table(id int,iding int, idart int, sto int, prec decimal)
+insert into @tabla(id, iding, idart , sto, prec)  
+				select detalle_ingreso.iddetalle_ingreso,
+				detalle_ingreso.idingreso,
+				articulo.idarticulo,
+				(-detalle_ingreso.cantidad + articulo.stock) as cantEE,
+				(((detalle_ingreso.precio_compra * -detalle_ingreso.cantidad)+(articulo.precio_compra * articulo.stock)) / (-detalle_ingreso.cantidad + articulo.stock)) as precioEE
+				from ingreso ,detalle_ingreso, articulo
+				where ingreso.idingreso = detalle_ingreso.idingreso 
+				and detalle_ingreso.idarticulo = articulo.idarticulo
+				and ingreso.idingreso = (@iding2)
+
+declare @count int = (select count(*) from @tabla )									
+
+while @count > 0
+begin																			
+
+declare @id int = (select top(1) id from @tabla )
+
+declare @idart2 int = (select top(1) idart from @tabla )
+declare @stock2 int = (select top(1) sto from @tabla ) 
+declare @precio_compra2 decimal = (select top(1) prec from @tabla ) 
+
+Update articulo set articulo.stock = (@stock2), articulo.precio_compra = (@precio_compra2)								
+where articulo.idarticulo = @idart2
+
+delete @tabla where id = @id
+set @count = (select count(*) from @tabla)
+
+end
+
+
+
+/*EJEMPLO*/
+Update articulo 
+set articulo.stock = articulo.stock - detalle_ingreso.cantidad
+from articulo
+inner JOIN detalle_ingreso
+on articulo.idarticulo = detalle_ingreso.idarticulo
+and detalle_ingreso.idingreso = 21
+go
+
+
+/**/
+update ingreso set ingreso.estado = 'Anulado'
+where ingreso.idingreso = 1091
+/**/
+
+
+
+/******************************************************************/
+/*ActualizarStockAnularVenta */
+drop TRIGGER ActualizarStockAnularVenta
+
+CREATE TRIGGER ActualizarStockAnularVenta
+on Venta
+for UPDATE
+AS
+declare @idven2 int = (select top(1) idventa from inserted )
+declare @tabla table(id int,idven int, idart int, sto int)
+insert into @tabla(id, idven, idart , sto)  
+				select detalle_venta.iddetalle_venta, detalle_venta.idventa,
+				articulo.idarticulo, (articulo.stock + detalle_venta.cantidad) as cantEE
+				from venta ,detalle_venta, articulo
+				where venta.idventa = detalle_venta.idventa 
+				and detalle_venta.idarticulo = articulo.idarticulo
+				and venta.idventa = (@idven2)
+declare @count int = (select count(*) from @tabla )									
+while @count > 0
+begin																			
+declare @id int = (select top(1) id from @tabla )
+declare @idart2 int = (select top(1) idart from @tabla )
+declare @stock2 int = (select top(1) sto from @tabla ) 
+Update articulo set articulo.stock = (@stock2)								
+where articulo.idarticulo = @idart2
+delete @tabla where id = @id
+set @count = (select count(*) from @tabla)
+end
+
+
+
+/******************************************************************/
+drop TRIGGER ActualizarStockIngreso
+
+
+CREATE TRIGGER ActualizarStockIngreso
+ON detalle_ingreso
+FOR INSERT
+AS 
+
+update articulo set articulo.precio_compra =(
+			select (
+			(select 
+			(articulo.stock * articulo.precio_compra) from articulo , detalle_ingreso       
+						where articulo.idarticulo = detalle_ingreso.idarticulo and
+						detalle_ingreso.idingreso = (SELECT MAX(idingreso) FROM ingreso )and
+						detalle_ingreso.iddetalle_ingreso = (SELECT MAX(iddetalle_ingreso) FROM detalle_ingreso ))  + 
+					 (select (detalle_ingreso.cantidad * detalle_ingreso.precio_compra) from detalle_ingreso 
+						where detalle_ingreso.iddetalle_ingreso = (SELECT MAX(iddetalle_ingreso) FROM detalle_ingreso ) )) 
+											 /
+			(select  
+			(articulo.stock + detalle_ingreso.cantidad)
+			FROM articulo, detalle_ingreso 
+			where	detalle_ingreso.idarticulo = articulo.idarticulo and 
+			detalle_ingreso.iddetalle_ingreso = (SELECT MAX(iddetalle_ingreso) FROM detalle_ingreso ))
+			)
+			,stock = stock + detalle.cantidad
+
+FROM articulo  INNER JOIN
+INSERTED AS detalle ON detalle.idarticulo = articulo.idarticulo 
+
+
+
+/***************************************************************************/
+drop TRIGGER ActualizarStockVenta
+
+
+CREATE TRIGGER ActualizarStockVenta
+ON detalle_venta
+FOR INSERT
+AS 
+
+update articulo set articulo.stock = articulo.stock - detalle.cantidad
+
+FROM articulo  INNER JOIN
+INSERTED AS detalle ON detalle.idarticulo = articulo.idarticulo  INNER JOIN
+detalle_venta on detalle_venta.iddetalle_venta = detalle.iddetalle_venta
+
+
+AND
+											detalle.iddetalle_venta = detalle_venta.iddetalle_venta	
+					
